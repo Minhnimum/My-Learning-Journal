@@ -32,8 +32,8 @@ This project was built as a hands-on way for me to learn and experiment with fro
 2. Open `index.html` in your browser.
 3. Explore, modify, and learn!
 
-### The Website
-- miniburger.netlify.app
+### Live Website
+- [miniburger.netlify.app](https://miniburger.netlify.app)
 
 ---
 Enjoy building and customizing your own burger shop!
