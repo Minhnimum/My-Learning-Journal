@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini's Diner - Restaurant Menu</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&family=Smooch+Sans:wght@100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <img src="Burger2.jpg" alt="Mini's Diner Logo" class="header-img">
+            <h1 class="header-title">Mini's Diner</h1>
+            <p class="header-text">The best burgers and pizza in town</p>
+        </div>
+    </header>
+    
+    <div class="main-content">
+        <!-- Thank you message -->
+        <div class="thank-you-message" id="thank-you-message">
+            <div class="thank-you-title" id="thank-you-title">Thanks, James! Your order is on its way!</div>
+            <p class="delivery-time" id="delivery-time">Your food will be delivered in approximately 20-30 minutes... or whenever our chef stops dancing to the music!</p>
+        </div>
+
+        <div class="menu-section" id="menu-section">
+            <!-- Menu items will be populated by JavaScript -->
+        </div>
+
+        <div class="cart-section" id="cart-section">
+            <h2 class="cart-title">Your order</h2>
+            <div id="cart-items">
+                <!-- Cart items will be populated by JavaScript -->
+            </div>
+            <div class="cart-total">
+                <span>Total price:</span>
+                <span id="total-price">$0</span>
+            </div>
+            <button class="complete-order-btn" id="complete-order-btn" disabled>Complete order</button>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-title">Enter card details</h2>
+            
+            <div class="order-summary">
+                <h4>Order Summary:</h4>
+                <div id="modal-order-items"></div>
+                <div class="summary-total">
+                    <span>Total price:</span>
+                    <span id="modal-total-price">$0</span>
+                </div>
+            </div>
+
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="card-name">Enter your name</label>
+                    <input type="text" id="card-name" name="cardName" required>
+                </div>
+                <div class="form-group">
+                    <label for="card-number">Enter card number</label>
+                    <input type="text" id="card-number" name="cardNumber" required placeholder="1234 5678 9012 3456">
+                </div>
+                <div class="form-group">
+                    <label for="card-cvv">Enter CVV</label>
+                    <input type="text" id="card-cvv" name="cardCvv" required placeholder="123">
+                </div>
+                <button type="submit" class="pay-btn">Pay</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+		<div class="close-modal-btn-container">
+			<button class="modal-close-btn" id="modal-close-btn" disabled>X</button>
+		</div>
+		<div class="modal-inner" id="modal-inner">
+			<h2>We ❤️ Your Data!</h2>
+			<p class="modal-text" id="modal-text">We have a strict policy on tracking and spamming: we'll definitely track you, and we'll definitely spam you. To use this
+				site, enter your name and email address and accept our ridiculous terms and conditions.</p>
+			<form id="consent-form">
+				<input type="text" name="fullName" placeholder="Enter your full name" required/>
+				<input type="email" name="email" placeholder="Enter your email" required/>
+
+				<div class="modal-choice-btns" id="modal-choice-btns">
+					<button type="submit" class="modal-btn">Accept</button>
+					<button class="modal-btn" id="decline-btn">Decline</button>
+				</div>
+
+			</form>
+		</div>
+	</div>
+
+    <script type="module" src="index.js"></script>
+</body>
+</html>
