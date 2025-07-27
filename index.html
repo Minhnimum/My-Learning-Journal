@@ -18,15 +18,16 @@
         </div>
     </header>
     
-    <div class="main-content">
+   <div class="main-content">
         <!-- Thank you message -->
         <div class="thank-you-message" id="thank-you-message">
             <div class="thank-you-title" id="thank-you-title">Thanks, James! Your order is on its way!</div>
             <p class="delivery-time" id="delivery-time">Your food will be delivered in approximately 20-30 minutes... or whenever our chef stops dancing to the music!</p>
         </div>
 
-        <div class="menu-section" id="menu-section">
-            <!-- Menu items will be populated by JavaScript -->
+        <!-- Categories section -->
+        <div class="categories-section" id="categories-section">
+            <!-- Categories will be populated by JavaScript -->
         </div>
 
         <div class="cart-section" id="cart-section">
@@ -75,26 +76,26 @@
         </div>
     </div>
 
-    <div class="modal" id="modal">
-		<div class="close-modal-btn-container">
-			<button class="modal-close-btn" id="modal-close-btn" disabled>X</button>
-		</div>
-		<div class="modal-inner" id="modal-inner">
-			<h2>We ❤️ Your Data!</h2>
-			<p class="modal-text" id="modal-text">We have a strict policy on tracking and spamming: we'll definitely track you, and we'll definitely spam you. To use this
-				site, enter your name and email address and accept our ridiculous terms and conditions.</p>
-			<form id="consent-form">
-				<input type="text" name="fullName" placeholder="Enter your full name" required/>
-				<input type="email" name="email" placeholder="Enter your email" required/>
+    <div class="cookie-modal" id="cookie-modal">
+        <div class="cookie-close-modal-btn-container">
+            <button class="cookie-modal-close-btn" id="cookie-modal-close-btn" disabled>X</button>
+        </div>
+        <div class="cookie-modal-inner" id="cookie-modal-inner">
+            <h2>We ❤️ Your Data!</h2>
+            <p class="cookie-modal-text" id="cookie-modal-text">We have a strict policy on tracking and spamming: we'll definitely track you, and we'll definitely spam you. To use this
+                site, enter your name and email address and accept our ridiculous terms and conditions.</p>
+            <form id="cookie-consent-form">
+                <input type="text" name="fullName" placeholder="Enter your full name" required/>
+                <input type="email" name="email" placeholder="Enter your email" required/>
 
-				<div class="modal-choice-btns" id="modal-choice-btns">
-					<button type="submit" class="modal-btn">Accept</button>
-					<button class="modal-btn" id="decline-btn">Decline</button>
-				</div>
+                <div class="cookie-modal-choice-btns" id="cookie-modal-choice-btns">
+                    <button type="submit" class="cookie-modal-btn">Accept</button>
+                    <button class="cookie-modal-btn" id="cookie-decline-btn">Decline</button>
+                </div>
 
-			</form>
-		</div>
-	</div>
+            </form>
+        </div>
+    </div>
 
     <script type="module" src="index.js"></script>
 </body>

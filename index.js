@@ -1,10 +1,11 @@
-import menuArray from './data.js';
+import { menuArray, categories } from './data.js';
 
 // Cart state
 let cart = [];
+let currentCategory = null;
 
 // DOM elements
-const menuSection = document.getElementById('menu-section');
+const categoriesSection = document.getElementById('categories-section');
 const cartSection = document.getElementById('cart-section');
 const cartItems = document.getElementById('cart-items');
 const totalPrice = document.getElementById('total-price');
@@ -17,9 +18,27 @@ const thankYouMessage = document.getElementById('thank-you-message');
 const thankYouTitle = document.getElementById('thank-you-title');
 const deliveryTime = document.getElementById('delivery-time');
 
-// Render menu
-function renderMenu() {
-    menuSection.innerHTML = menuArray.map(item => `
+// Render categories
+function renderCategories() {
+    categoriesSection.innerHTML = categories.map(category => `
+        <div class="category-card ${category.id === currentCategory ? 'active' : ''}" onclick="toggleCategory('${category.id}')">
+            <div class="category-info">
+                <div class="category-emoji">${category.emoji}</div>
+                <h3 class="category-name">${category.name}</h3>
+            </div>
+            <div class="category-arrow">▼</div>
+        </div>
+        <div class="menu-items ${category.id === currentCategory ? 'show' : ''}" id="menu-${category.id}">
+            ${renderMenuItems(category.id)}
+        </div>
+    `).join('');
+}
+
+// Render menu items for a specific category
+function renderMenuItems(categoryId) {
+    const filteredItems = menuArray.filter(item => item.category === categoryId);
+    
+    return filteredItems.map(item => `
         <div class="card">
             <div class="logo">${item.emoji}</div>
             <div class="item-details">
@@ -30,6 +49,21 @@ function renderMenu() {
             <button class="add-to-cart" onclick="addToCart(${item.id})">+</button>
         </div>
     `).join('');
+}
+
+// Toggle category visibility
+function toggleCategory(categoryId) {
+    const wasActive = currentCategory === categoryId;
+    
+    // Close all categories first
+    currentCategory = null;
+    
+    // If it wasn't active, open the clicked category
+    if (!wasActive) {
+        currentCategory = categoryId;
+    }
+    
+    renderCategories();
 }
 
 // Add item to cart
@@ -116,7 +150,6 @@ function renderCart() {
 
 // Show payment modal
 function showPaymentModal() {
-    // Populate order summary in modal
     modalOrderItems.innerHTML = cart.map(item => `
         <div class="summary-item">
             <span>${item.name} x${item.quantity}</span>
@@ -176,9 +209,6 @@ paymentForm.addEventListener('submit', (e) => {
     // Get customer name from the form input
     const customerName = document.getElementById('card-name').value.trim();
     
-    // Debug: log the name to console
-    console.log('Customer name:', customerName);
-    
     // Hide modal and cart first
     hidePaymentModal();
     hideCart();
@@ -208,14 +238,9 @@ document.getElementById('card-cvv').addEventListener('input', (e) => {
     e.target.value = e.target.value.slice(0, 3);
 });
 
-// Make functions globally available for onclick handlers
-window.addToCart = addToCart;
-window.updateQuantity = updateQuantity;
-window.removeFromCart = removeFromCart;
-
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
-    renderMenu();
+    renderCategories();
 });
 
 
@@ -223,52 +248,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Cookie Consent Modal
 
-const modal = document.getElementById('modal')
-const modalCloseBtn = document.getElementById('modal-close-btn')
-const consentForm = document.getElementById('consent-form')
-const modalText = document.getElementById('modal-text')
-const declineBtn = document.getElementById('decline-btn')
-const modalChoiceBtns = document.getElementById('modal-choice-btns')
+const cookieModal = document.getElementById('cookie-modal')
+const cookieModalCloseBtn = document.getElementById('cookie-modal-close-btn')
+const cookieConsentForm = document.getElementById('cookie-consent-form')
+const cookieModalText = document.getElementById('cookie-modal-text')
+const cookieDeclineBtn = document.getElementById('cookie-decline-btn')
+const cookieModalChoiceBtns = document.getElementById('cookie-modal-choice-btns')
 
 setTimeout(function(){
-    modal.style.display = 'inline'
+    cookieModal.style.display = 'inline'
 }, 1500)
 
-modalCloseBtn.addEventListener('click', function(){
-    modal.style.display = 'none'
+cookieModalCloseBtn.addEventListener('click', function(){
+    cookieModal.style.display = 'none'
 }) 
 
-declineBtn.addEventListener('mouseenter', function(){
-    modalChoiceBtns.classList.toggle('modal-btns-reverse')
+cookieDeclineBtn.addEventListener('mouseenter', function(){
+    cookieModalChoiceBtns.classList.toggle('cookie-modal-btns-reverse')
 }) 
 
-consentForm.addEventListener('submit', function(e){
+cookieConsentForm.addEventListener('submit', function(e){
     e.preventDefault()
     
-    const consentFormData = new FormData(consentForm)
+    const consentFormData = new FormData(cookieConsentForm)
     const fullName = consentFormData.get('fullName')
     
-    modalText.innerHTML = `
+    cookieModalText.innerHTML = `
     <div class="modal-inner-loading">
         <img src="images/loading.svg" class="loading">
-        <p id="upload-text">Uploading your data to the dark web...</p>
+        <p id="cookie-upload-text">Uploading your data to the dark web...</p>
     </div>` 
     
     setTimeout(function(){
-        document.getElementById('upload-text').innerText = `
+        document.getElementById('cookie-upload-text').innerText = `
         Making the sale...`
     }, 1500)
     
-    
     setTimeout(function(){
-        document.getElementById('modal-inner').innerHTML = `
+        document.getElementById('cookie-modal-inner').innerHTML = `
         <h2>Thanks <span class="modal-display-name">${fullName}</span>, you sucker! </h2>
         <p>We just sold the rights to your eternal soul.</p>
         <div class="idiot-gif">
             <img src="images/pirate.gif">
         </div>
     `
-    modalCloseBtn.disabled = false
+    cookieModalCloseBtn.disabled = false
     }, 3000)
   
 }) 
+
+
+window.toggleCategory = toggleCategory;
+window.addToCart = addToCart;
+window.updateQuantity = updateQuantity;
+window.removeFromCart = removeFromCart;
