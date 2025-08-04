@@ -3,100 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini's Diner - Restaurant Menu</title>
-    <link rel="stylesheet" href="index.css">
+    <title>My Learning Journal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&family=Smooch+Sans:wght@100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <header>
-        <div class="header-container">
-            <img src="Burger2.jpg" alt="Mini's Diner Logo" class="header-img">
-            <h1 class="header-title">Mini's Diner</h1>
-            <p class="header-text">The best burgers and pizza in town</p>
+        <div class="logo-container">
+            <img src="./images/logo.png" alt="Logo" class="logo">
+            <h1>My Learning Journal</h1>
         </div>
+        <nav class="nav-links">
+            <ul>
+                <li class="mobile-menu-toggle">
+                    <img class="navbtn" src="./images/Bars4.svg">
+                </li>
+                <li class="desktop-nav"><button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle theme">🌙</button></li>
+                <li class="desktop-nav"><a id="homebtn">Home</a></li>
+                <li class="desktop-nav"><a id="aboutbtn">About Me</a></li>
+            </ul>
+        </nav>
+
     </header>
     
-   <div class="main-content">
-        <!-- Thank you message -->
-        <div class="thank-you-message" id="thank-you-message">
-            <div class="thank-you-title" id="thank-you-title">Thanks, James! Your order is on its way!</div>
-            <p class="delivery-time" id="delivery-time">Your food will be delivered in approximately 20-30 minutes... or whenever our chef stops dancing to the music!</p>
-        </div>
+        <nav class="mobile-menu">
+            <li class="mobile-nav"><button class="mobile-theme-toggle-btn" id="theme-toggle" aria-label="Toggle theme">🌙</button></li>
+            <li class="mobile-nav"><a id="mobile-homebtn">Home</a></li>
+            <li class="mobile-nav"><a id="mobile-aboutbtn">About Me</a></li>
+        </nav>
 
-        <!-- Categories section -->
-        <div class="categories-section" id="categories-section">
-            <!-- Categories will be populated by JavaScript -->
-        </div>
+    <main>
+       
 
-        <div class="cart-section" id="cart-section">
-            <h2 class="cart-title">Your order</h2>
-            <div id="cart-items">
-                <!-- Cart items will be populated by JavaScript -->
+        <section class="hero-section" id="hero-section">
+            <div class="hero-content">
+                <p class="post-date">May 30, 2025</p>
+                <h1>My new journey as a bootcamp student.</h1>
+                <p class="post-excerpt">
+                    After several months of learning in the Frontend Developer Career Path,
+                    I've made the big jump over to the Bootcamp to get expert code reviews
+                    of my Solo Projects projects and meet like-minded peers.
+                </p>
             </div>
-            <div class="cart-total">
-                <span>Total price:</span>
-                <span id="total-price">$0</span>
+           
+        </section>
+
+        <section class="full-blog-post hidden" id="blog-1">
+            <button class="back-btn" id="back-to-home">← Back to Home</button>
+            <p class="post-date">May 30, 2025</p>
+            <h1>My new journey as a bootcamp student.</h1>
+            <p class="post-excerpt">
+                After several months of learning in the Frontend Developer Career Path,
+                I've made the big jump over to the Bootcamp to get expert code reviews
+                of my Solo Projects projects and meet like-minded peers.
+            </p>
+            <img src="./images/header.png" alt="Hero Image" class="hero-image">
+            <div class="blog-post-content">
+                <h3>I stay committed to learning</h3>
+                <p>
+                    After several months of learning in the Frontend Developer Career Path,
+                    I've made the big jump over to the Bootcamp to get expert code reviews
+                    of my Solo Projects projects and meet like-minded peers.
+                </p>
+                <p>
+                    While that was fun, I felt like it would be helpful to share what
+                    I was learning and most things about my journey with the world.
+                </p>
+                <h3>How I got started</h3>
+                <p>
+                    I started simple and gradually grew my learning journal site.
+                    I would take notes about what I was learning. After each learning session,
+                    I'd use my notes to not only reflect on what I learned but also write short
+                    summaries of what I learned using my own words.
+                </p>
             </div>
-            <button class="complete-order-btn" id="complete-order-btn" disabled>Complete order</button>
-        </div>
-    </div>
+        </section>
 
-    <!-- Payment Modal -->
-    <div id="payment-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 class="modal-title">Enter card details</h2>
-            
-            <div class="order-summary">
-                <h4>Order Summary:</h4>
-                <div id="modal-order-items"></div>
-                <div class="summary-total">
-                    <span>Total price:</span>
-                    <span id="modal-total-price">$0</span>
+        <section class="about-section hidden" id="about-section">
+                <div class="about-me">
+                    <div class="about-me-content">
+                        <div class="about-me-header">
+                            <img src="./images/Avatar.webp" alt="Avatar" class="avatar-img">
+                            <span>
+                                <h1>Hi there! My name is Minh and welcome to my learning journal.</h1>
+                                <p>
+                                    After several months of learning in the Frontend Developer Career Path, 
+                                    I've made the big jump over to the Bootcamp to get expert code reviews 
+                                    of my Solo Projects projects and meet like-minded peers.
+                                </p>
+                            </span>
+                            
+                        </div>
+                        <div class="about-text">
+                            <p>
+                                <br>
+                                    <strong>
+                                        I stay committed to learning
+                                    </strong>
+                                </p>
+                                <br>
+                                    I like to think of myself as a lifelong learner. I used to spend hours and hours learning, 
+                                    then try to create simple projects using what I learned or work new techniques into existing projects.
+                                </br>
+                                <br>
+                                    <strong>
+                                        How I got started
+                                    </strong>
+                                </br>
+                                <br>
+                                    I started simple and gradually grew my learning journal site. I would 
+                                    take notes about what I was learning. After each learning session, I'd 
+                                    use my notes to not only reflect on what I learned but also write short summaries of what I learned using my own words.
+                                </br>
+                                <br>
+                                That helped me grow what I was learning, and I realized that posting my learning summarie
+                                s was also helping others learn and stay motivated.
+                                </br>
+                            </p>
+                        </div>
+                    </div>
                 </div>
+        </section>
+
+        <section class="blog-posts" id="main-blog-posts">
+            <h2 class="recent-posts-title">Recent Posts</h2>
+            <div class="posts-container">
+                <article class="post-card">
+                    <a href="#blog-1" aria-label="Blog 1">
+                        <img src="./images/blog1.png" alt="Blog 1 Image">
+                        <div class="post-details">
+                            <p class="post-date">June 1, 2025</p>
+                            <h2>Blog one</h2>
+                            <p>I'm excited to start a new learning journey as a Scrimba Bootcamp student! After several months of learning in the Frontend Developer Career Path.</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="#blog-2" aria-label="Blog 2">
+                        <img src="./images/blog2.png" alt="Blog 2 Image">
+                        <div class="post-details">
+                            <p class="post-date">June 2, 2025</p>
+                            <h2>Blog two</h2>
+                            <p>I'm excited to start a new learning journey as a Scrimba Bootcamp student! After several months of learning in the Frontend Developer Career Path.</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="#blog-3" aria-label="Blog 3">
+                        <img src="./images/blog3.png" alt="Blog 3 Image">
+                        <div class="post-details">
+                            <p class="post-date">June 3, 2025</p>
+                            <h2>Blog three</h2>
+                            <p>I'm excited to start a new learning journey as a Scrimba Bootcamp student! After several months of learning in the Frontend Developer Career Path.</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="#blog-4" aria-label="Blog 4">
+                        <img src="./images/blog4.png" alt="Blog 4 Image">
+                        <div class="post-details">
+                            <p class="post-date">June 4, 2025</p>
+                            <h2>Blog four</h2>
+                            <p>I'm excited to start a new learning journey as a Scrimba Bootcamp student! After several months of learning in the Frontend Developer Career Path.</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="#blog-5" aria-label="Blog 5">
+                        <img src="./images/blog5.png" alt="Blog 5 Image">
+                        <div class="post-details">
+                            <p class="post-date">June 5, 2025</p>
+                            <h2>Blog five</h2>
+                            <p>I'm excited to start a new learning journey as a Scrimba Bootcamp student! After several months of learning in the Frontend Developer Career Path.</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card">
+                    <a href="#blog-6" aria-label="Blog 6">
+                        <img src="./images/blog6.png" alt="Blog 6 Image">
+                        <div class="post-details">
+                            <p class="post-date">June 6, 2025</p>
+                            <h2>Blog six</h2>
+                            <p>I'm excited to start a new learning journey as a Scrimba Bootcamp student! After several months of learning in the Frontend Developer Career Path.</p>
+                        </div>
+                    </a>
+                </article>
+                <!-- Additional hidden posts that will show when "View More" is clicked -->
+                <article class="post-card hidden extra-post">
+                    <a href="#blog-7" aria-label="Blog 7">
+                        <img src="./images/blog7.jpg" alt="Blog 7 Image">
+                        <div class="post-details">
+                            <p class="post-date">June 7, 2025</p>
+                            <h2>Advanced CSS Techniques</h2>
+                            <p>Exploring modern CSS features like Grid, Flexbox, and CSS Variables to create responsive and maintainable layouts for web applications.</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card hidden extra-post">
+                    <a href="#blog-8" aria-label="Blog 8">
+                        <img src="./images/blog8.jpg" alt="Blog 8 Image">
+                        <div class="post-details">
+                            <p class="post-date">June 8, 2025</p>
+                            <h2>JavaScript Fundamentals</h2>
+                            <p>Deep diving into JavaScript concepts including closures, promises, and async/await to build more dynamic and interactive web experiences.</p>
+                        </div>
+                    </a>
+                </article>
+                <article class="post-card hidden extra-post">
+                    <a href="#blog-9" aria-label="Blog 9">
+                        <img src="./images/blog9.jpg" alt="Blog 9 Image">
+                        <div class="post-details">
+                            <p class="post-date">June 9, 2025</p>
+                            <h2>Building My First React App</h2>
+                            <p>Starting my journey with React framework, learning about components, state management, and creating reusable UI elements.</p>
+                        </div>
+                    </a>
+                </article>
             </div>
+           
+            <button class="view-more-btn" id="view-more-posts">View More</button>
+        </section>
 
-            <form id="payment-form">
-                <div class="form-group">
-                    <label for="card-name">Enter your name</label>
-                    <input type="text" id="card-name" name="cardName" required>
-                </div>
-                <div class="form-group">
-                    <label for="card-number">Enter card number</label>
-                    <input type="text" id="card-number" name="cardNumber" required placeholder="1234 5678 9012 3456">
-                </div>
-                <div class="form-group">
-                    <label for="card-cvv">Enter CVV</label>
-                    <input type="text" id="card-cvv" name="cardCvv" required placeholder="123">
-                </div>
-                <button type="submit" class="pay-btn">Pay</button>
-            </form>
-        </div>
-    </div>
+        
+    </main>
 
-    <div class="cookie-modal" id="cookie-modal">
-        <div class="cookie-close-modal-btn-container">
-            <button class="cookie-modal-close-btn" id="cookie-modal-close-btn" disabled>X</button>
-        </div>
-        <div class="cookie-modal-inner" id="cookie-modal-inner">
-            <h2>We ❤️ Your Data!</h2>
-            <p class="cookie-modal-text" id="cookie-modal-text">We have a strict policy on tracking and spamming: we'll definitely track you, and we'll definitely spam you. To use this
-                site, enter your name and email address and accept our ridiculous terms and conditions.</p>
-            <form id="cookie-consent-form">
-                <input type="text" name="fullName" placeholder="Enter your full name" required/>
-                <input type="email" name="email" placeholder="Enter your email" required/>
+    <footer>
+    </footer>
 
-                <div class="cookie-modal-choice-btns" id="cookie-modal-choice-btns">
-                    <button type="submit" class="cookie-modal-btn">Accept</button>
-                    <button class="cookie-modal-btn" id="cookie-decline-btn">Decline</button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <script type="module" src="index.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

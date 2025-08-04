@@ -1,304 +1,179 @@
-import { menuArray, categories } from './data.js';
 
-// Cart state
-let cart = [];
-let currentCategory = null;
+// Theme Toggle
 
-// DOM elements
-const categoriesSection = document.getElementById('categories-section');
-const cartSection = document.getElementById('cart-section');
-const cartItems = document.getElementById('cart-items');
-const totalPrice = document.getElementById('total-price');
-const completeOrderBtn = document.getElementById('complete-order-btn');
-const paymentModal = document.getElementById('payment-modal');
-const modalOrderItems = document.getElementById('modal-order-items');
-const modalTotalPrice = document.getElementById('modal-total-price');
-const paymentForm = document.getElementById('payment-form');
-const thankYouMessage = document.getElementById('thank-you-message');
-const thankYouTitle = document.getElementById('thank-you-title');
-const deliveryTime = document.getElementById('delivery-time');
+const themebtn = document.getElementById('theme-toggle'); // No dot
+const body = document.body;
 
-// Render categories
-function renderCategories() {
-    categoriesSection.innerHTML = categories.map(category => `
-        <div class="category-card ${category.id === currentCategory ? 'active' : ''}" onclick="toggleCategory('${category.id}')">
-            <div class="category-info">
-                <div class="category-emoji">${category.emoji}</div>
-                <h3 class="category-name">${category.name}</h3>
-            </div>
-            <div class="category-arrow">▼</div>
-        </div>
-        <div class="menu-items ${category.id === currentCategory ? 'show' : ''}" id="menu-${category.id}">
-            ${renderMenuItems(category.id)}
-        </div>
-    `).join('');
+const currentTheme = localStorage.getItem('theme') || 'light';
+if (currentTheme === 'light') {
+    body.classList.add('light-theme');
+    themebtn.textContent = '☀️';
+} else {
+    body.classList.remove('light-theme');
+    themebtn.textContent = '🌙';
 }
 
-// Render menu items for a specific category
-function renderMenuItems(categoryId) {
-    const filteredItems = menuArray.filter(item => item.category === categoryId);
-    
-    return filteredItems.map(item => `
-        <div class="card">
-            <div class="logo">${item.emoji}</div>
-            <div class="item-details">
-                <h3 class="name">${item.name}</h3>
-                <p class="ingredients">${item.ingredients.join(', ')}</p>
-                <p class="price">$${item.price}</p>
-            </div>
-            <button class="add-to-cart" onclick="addToCart(${item.id})">+</button>
-        </div>
-    `).join('');
-}
-
-// Toggle category visibility
-function toggleCategory(categoryId) {
-    const wasActive = currentCategory === categoryId;
-    
-    // Close all categories first
-    currentCategory = null;
-    
-    // If it wasn't active, open the clicked category
-    if (!wasActive) {
-        currentCategory = categoryId;
-    }
-    
-    renderCategories();
-}
-
-// Add item to cart
-function addToCart(itemId) {
-    const item = menuArray.find(item => item.id === itemId);
-    const existingItem = cart.find(cartItem => cartItem.id === itemId);
-
-    if (existingItem) {
-        existingItem.quantity += 1;
+themebtn.addEventListener('click', () => {
+    body.classList.toggle('light-theme'); // typo fixed
+    if (body.classList.contains('light-theme')) {
+        themebtn.textContent = '☀️';
+        localStorage.setItem('theme', 'light');
     } else {
-        cart.push({ ...item, quantity: 1 });
-    }
-
-    renderCart();
-    showCart();
-}
-
-// Show cart section
-function showCart() {
-    cartSection.classList.add('show');
-}
-
-// Hide cart section
-function hideCart() {
-    cartSection.classList.remove('show');
-}
-
-// Update quantity
-function updateQuantity(itemId, change) {
-    const item = cart.find(cartItem => cartItem.id === itemId);
-    if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) {
-            removeFromCart(itemId);
-        } else {
-            renderCart();
-        }
-    }
-}
-
-// Remove item from cart
-function removeFromCart(itemId) {
-    cart = cart.filter(item => item.id !== itemId);
-    renderCart();
-    
-    if (cart.length === 0) {
-        hideCart();
-    }
-}
-
-// Calculate total
-function calculateTotal() {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-}
-
-// Render cart
-function renderCart() {
-    if (cart.length === 0) {
-        cartItems.innerHTML = '<p>Your cart is empty</p>';
-        completeOrderBtn.disabled = true;
-        totalPrice.textContent = '$0';
-        return;
-    }
-
-    cartItems.innerHTML = cart.map(item => `
-        <div class="cart-item">
-            <div>
-                <div class="cart-item-name">${item.name}</div>
-                <div class="cart-item-controls">
-                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                    <span class="quantity">${item.quantity}</span>
-                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                    <button class="remove-btn" onclick="removeFromCart(${item.id})">remove</button>
-                </div>
-            </div>
-            <div>$${item.price * item.quantity}</div>
-        </div>
-    `).join('');
-
-    const total = calculateTotal();
-    totalPrice.textContent = `$${total}`;
-    completeOrderBtn.disabled = false;
-}
-
-// Show payment modal
-function showPaymentModal() {
-    modalOrderItems.innerHTML = cart.map(item => `
-        <div class="summary-item">
-            <span>${item.name} x${item.quantity}</span>
-            <span>$${item.price * item.quantity}</span>
-        </div>
-    `).join('');
-    
-    modalTotalPrice.textContent = `$${calculateTotal()}`;
-    paymentModal.classList.add('show');
-}
-
-// Hide payment modal
-function hidePaymentModal() {
-    paymentModal.classList.remove('show');
-}
-
-// Show thank you message with fun delivery times
-function showThankYouMessage(customerName) {
-    const funDeliveryTimes = [
-        "Your food will be delivered in approximately 15-25 minutes... or right after our chef finishes his victory dance!",
-        "Delivery time: 20-30 minutes, unless our delivery driver gets distracted by cute dogs again!",
-        "Your order will arrive in 18-28 minutes... assuming our chef doesn't eat it first (just kidding)!",
-        "Expected delivery: 15-30 minutes, or whenever our delivery hero defeats the traffic monsters!",
-        "Food incoming in 20-35 minutes... our chef is putting extra love into every bite!",
-        "Delivery window: 15-25 minutes, unless our driver stops to help more grandmas cross the street!",
-        "Your delicious order will arrive in 20-30 minutes... time for a quick victory nap!",
-        "Estimated arrival: 15-30 minutes, or whenever our magical food teleporter finishes charging!"
-    ];
-    
-    const randomDeliveryTime = funDeliveryTimes[Math.floor(Math.random() * funDeliveryTimes.length)];
-    
-    thankYouTitle.textContent = `Thanks, ${customerName}! Your order is on its way!`;
-    deliveryTime.textContent = randomDeliveryTime;
-    thankYouMessage.classList.add('show');
-    
-    // Hide the message after 10 seconds
-    setTimeout(() => {
-        thankYouMessage.classList.remove('show');
-    }, 10000);
-}
-
-// Event listeners
-completeOrderBtn.addEventListener('click', showPaymentModal);
-
-// Close modal when clicking X or outside
-document.querySelector('.close').addEventListener('click', hidePaymentModal);
-paymentModal.addEventListener('click', (e) => {
-    if (e.target === paymentModal) {
-        hidePaymentModal();
+        themebtn.textContent = '🌙';
+        localStorage.setItem('theme', 'dark');
     }
 });
 
-// Handle payment form submission
-paymentForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Get customer name from the form input
-    const customerName = document.getElementById('card-name').value.trim();
-    
-    // Hide modal and cart first
-    hidePaymentModal();
-    hideCart();
-    
-    // Reset cart and form
-    cart = [];
-    renderCart();
-    paymentForm.reset();
-    
-    // Show personalized thank you message after a short delay
-    setTimeout(() => {
-        showThankYouMessage(customerName);
-    }, 300);
-});
+// Mobile Navigation 
+const mobileMenu = document.querySelector('.mobile-menu');
+const navBtn = document.querySelector('.navbtn'); // Use querySelector for the class
+const mobileThemeToggleBtn = document.querySelector('.mobile-theme-toggle-btn');
+const mobileHomeBtn = document.getElementById('mobile-homebtn');
+const mobileAboutBtn = document.getElementById('mobile-aboutbtn');
 
-// Format card number input
-document.getElementById('card-number').addEventListener('input', (e) => {
-    let value = e.target.value.replace(/\s/g, '');
-    let formattedValue = value.replace(/(.{4})/g, '$1 ').trim();
-    if (formattedValue.length <= 19) { // 16 digits + 3 spaces
-        e.target.value = formattedValue;
+// Fixed the typo: addEventListener
+if (navBtn) {
+    navBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle('active');
+    });
+}
+
+mobileThemeToggleBtn.addEventListener('click', () => {
+    body.classList.toggle('light-theme'); // typo fixed
+    if (body.classList.contains('light-theme')) {
+        themebtn.textContent = '☀️';
+        localStorage.setItem('theme', 'light');
+    } else {
+        themebtn.textContent = '🌙';
+        localStorage.setItem('theme', 'dark');
     }
 });
 
-// Limit CVV to 3 digits
-document.getElementById('card-cvv').addEventListener('input', (e) => {
-    e.target.value = e.target.value.slice(0, 3);
+mobileAboutBtn.addEventListener('click', () => {
+    if (!heroSection.classList.contains('hidden')) { 
+        heroSection.classList.add('hidden');
+        aboutMeSection.classList.remove('hidden');
+        aboutMeSection.classList.add('fade-in');
+    }
+    else if (!fullBlogPost.classList.contains('hidden')) {
+        fullBlogPost.classList.add('hidden');
+        aboutMeSection.classList.remove('hidden');
+        aboutMeSection.classList.add('fade-in');
+    }
 });
 
-// Initialize app
-document.addEventListener('DOMContentLoaded', () => {
-    renderCategories();
+mobileHomeBtn.addEventListener('click', () => {
+    if ((!aboutMeButton.classList.contains('hidden')) || (!fullBlogPost.classList.contains('hidden'))) {
+        aboutMeSection.classList.add('hidden');
+        fullBlogPost.classList.add('hidden');
+        heroSection.classList.remove('hidden');
+        heroSection.classList.add('fade-in');
+    }
 });
 
+// View More Button and Extra Blog Posts
+
+const viewMoreButtons = document.getElementById('view-more-posts');
+const extraPosts = document.querySelectorAll('.extra-post');
+const blogPosts = document.getElementById('main-blog-posts');
+let postsVisible = false;
 
 
+viewMoreButtons.addEventListener('click', () => {
+    if (!postsVisible) {
 
-// Cookie Consent Modal
+        extraPosts.forEach((post, index) => {
+            setTimeout(() => {
+                post.classList.add('sliding-in'); 
+                post.offsetWidth;
 
-const cookieModal = document.getElementById('cookie-modal')
-const cookieModalCloseBtn = document.getElementById('cookie-modal-close-btn')
-const cookieConsentForm = document.getElementById('cookie-consent-form')
-const cookieModalText = document.getElementById('cookie-modal-text')
-const cookieDeclineBtn = document.getElementById('cookie-decline-btn')
-const cookieModalChoiceBtns = document.getElementById('cookie-modal-choice-btns')
+                post.classList.remove('hidden');
+                setTimeout(() => {
+                    post.classList.remove('sliding-in');
+                }, 300);
+            }, index * 100) 
+        });
 
-setTimeout(function(){
-    cookieModal.style.display = 'inline'
-}, 1500)
+        postsVisible = true;
+        setTimeout(() => {
+            if (extraPosts.length > 0) {
+                extraPosts[0].scrollIntoView({behavior: 'smooth', block: 'start' });
+            }
+        }, extraPosts.length * 100 + 100);
+    } else {
 
-cookieModalCloseBtn.addEventListener('click', function(){
-    cookieModal.style.display = 'none'
-}) 
+        extraPosts.forEach((post, index) => {
+        setTimeout(() => {
+            post.classList.add("sliding-out");
+            setTimeout(() => {
+                post.classList.add('hidden');
+                post.classList.remove('sliding-out');
+            }, 300);
+            }, index * 100);
+        });
+        postsVisible = false;
 
-cookieDeclineBtn.addEventListener('mouseenter', function(){
-    cookieModalChoiceBtns.classList.toggle('cookie-modal-btns-reverse')
-}) 
+        setTimeout(() => {
+                blogPosts.scrollIntoView({behavior: 'smooth', block: 'start' });
+        }, 600);
+    }
 
-cookieConsentForm.addEventListener('submit', function(e){
-    e.preventDefault()
-    
-    const consentFormData = new FormData(cookieConsentForm)
-    const fullName = consentFormData.get('fullName')
-    
-    cookieModalText.innerHTML = `
-    <div class="modal-inner-loading">
-        <img src="images/loading.svg" class="loading">
-        <p id="cookie-upload-text">Uploading your data to the dark web...</p>
-    </div>` 
-    
-    setTimeout(function(){
-        document.getElementById('cookie-upload-text').innerText = `
-        Making the sale...`
-    }, 1500)
-    
-    setTimeout(function(){
-        document.getElementById('cookie-modal-inner').innerHTML = `
-        <h2>Thanks <span class="modal-display-name">${fullName}</span>, you sucker! </h2>
-        <p>We just sold the rights to your eternal soul.</p>
-        <div class="idiot-gif">
-            <img src="images/pirate.gif">
-        </div>
+    viewMoreButtons.textContent = postsVisible ? "VIew Less" : "View More";
+})
+
+// Hero Section
+
+const heroSection = document.getElementById('hero-section');
+const fullBlogPost = document.getElementById('blog-1');
+const backToHomeButton = document.getElementById('back-to-home');
+const homeBtn = document.getElementById('homebtn');
+const aboutMeSection = document.getElementById('about-section');
+const aboutMeButton = document.getElementById('aboutbtn');
+
+heroSection.addEventListener('click', () => {
+    if (!heroSection.classList.contains('hidden')) {
+        heroSection.classList.add('hidden');
+        fullBlogPost.classList.remove('hidden');
+        fullBlogPost.classList.add('fade-in');
+    }
+});
+
+backToHomeButton.addEventListener('click', () => {
+    if (!fullBlogPost.classList.contains('hidden')) {
+        fullBlogPost.classList.add('hidden');
+        heroSection.classList.remove('hidden');
+        heroSection.classList.add('fade-in');
+    }
+});
+
+aboutMeButton.addEventListener('click', () => {
+    if (!heroSection.classList.contains('hidden')) { 
+        heroSection.classList.add('hidden');
+        aboutMeSection.classList.remove('hidden');
+        aboutMeSection.classList.add('fade-in');
+    }
+    else if (!fullBlogPost.classList.contains('hidden')) {
+        fullBlogPost.classList.add('hidden');
+        aboutMeSection.classList.remove('hidden');
+        aboutMeSection.classList.add('fade-in');
+    }
+});
+
+homeBtn.addEventListener('click', () => {
+    if ((!aboutMeButton.classList.contains('hidden')) || (!fullBlogPost.classList.contains('hidden'))) {
+        aboutMeSection.classList.add('hidden');
+        fullBlogPost.classList.add('hidden');
+        heroSection.classList.remove('hidden');
+        heroSection.classList.add('fade-in');
+    }
+});
+
+/* Footer */
+
+const footer = document.querySelector('footer');
+const currentYear = new Date().getFullYear();
+footer.innerHTML = 
     `
-    cookieModalCloseBtn.disabled = false
-    }, 3000)
-  
-}) 
-
-
-window.toggleCategory = toggleCategory;
-window.addToCart = addToCart;
-window.updateQuantity = updateQuantity;
-window.removeFromCart = removeFromCart;
+        <h4>My Learning Journal</h4>
+        <p>Copyright ©${currentYear}</p>
+    `
