@@ -2,7 +2,7 @@
 
 This is a responsive learning journal and blog website, built to showcase my progress as a web development student.
 
-**Live Demo:** [mylearningjournal.netlify.app](https://minhlearningjournal.netlify.app/))
+**Live Demo:** [mylearningjournal.netlify.app](https://minhlearningjournal.netlify.app/)
 
 -----
 
